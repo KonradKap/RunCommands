@@ -124,3 +124,5 @@ fi
 # Vim aliases to automatically load session
 alias vims='vim -S ~/.vim_session'
 
+# Cal
+alias cal='cal -m'

@@ -32,11 +32,13 @@ map <leader>t :YcmCompleter GetType <cr>
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+" Bundle 'jistr/vim-nerdtree-tabs'
 map <F5> :NERDTreeToggle<CR>
 
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 let g:airline_theme='distinguished'
+
 
 highlight Pmenu ctermfg=15 ctermbg=0 guifg=#ffffff guibg=#000000
 colorscheme molokai
@@ -133,6 +135,7 @@ set mouse=a
 set cmdheight=2
 
 " Display line numbers on the left
+set relativenumber
 set number
 
 " Quickly time out on keycodes, but never time out on mappings
@@ -177,3 +180,9 @@ set matchpairs+=<:>
 
 " Pressing Ctrl-L leaves insert mode in evim, so why not in regular vim, too.
 imap <C-L> <Esc>
+
+set incsearch
+
+nnoremap <C-n> gt
+nnoremap <C-b> gT
+

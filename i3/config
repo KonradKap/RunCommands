@@ -29,8 +29,10 @@ font pango:monospace 8
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+hide_edge_borders smart
+
 # start a terminal
-bindsym $mod+Return exec lilyterm
+bindsym $mod+Return exec /home/kksiaze/.config/i3/terminal_spawn.sh
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -160,8 +162,8 @@ bar {
 
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +3% && killall -SIGUSR1 i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -3% && killall -SIGUSR1 i3status
-bindsym XF86MonBrightnessUp exec --no-startup-id /home/kksiaze/.config/i3/brightness.sh 10
-bindsym XF86MonBrightnessDown exec --no-startup-id /home/kksiaze/.config/i3/brightness.sh -10
+bindsym XF86MonBrightnessUp exec --no-startup-id bash sudo /home/kksiaze/.config/i3/brightness.sh 10
+bindsym XF86MonBrightnessDown exec --no-startup-id bash sudo /home/kksiaze/.config/i3/brightness.sh -10
 
 bindsym $mod+z exec "/home/kksiaze/.config/i3/lock.sh"
 #exec xautolock -time 15 -locker '/home/kksiaze/.config/i3/lock.sh' &
