@@ -24,11 +24,11 @@ Plugin 'VundleVim/Vundle.vim'
 " My plugins:
 Plugin 'derekwyatt/vim-scala'
 
-" Plugin 'Valloric/YouCompleteMe'
-" let g:ycm_goto_buffer_command = 'new-tab'
-" map <F6> :YcmDiags<CR>
-" map <leader>f :YcmCompleter GoTo <cr>
-" map <leader>t :YcmCompleter GetType <cr>
+Plugin 'Valloric/YouCompleteMe'
+let g:ycm_goto_buffer_command = 'new-tab'
+map <F6> :YcmDiags<CR>
+map <leader>f :YcmCompleter GoTo <cr>
+map <leader>t :YcmCompleter GetType <cr>
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
