@@ -186,3 +186,5 @@ set incsearch
 nnoremap <C-n> gt
 nnoremap <C-b> gT
 
+" // to search for visually selected text
+vnoremap // y/\V<C-R>"<CR>
