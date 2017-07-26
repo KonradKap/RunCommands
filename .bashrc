@@ -126,3 +126,9 @@ alias vims='vim -S ~/.vim_session'
 
 # Cal
 alias cal='cal -m'
+
+# Seoul
+alias date_s="TZ='/usr/share/zoneinfo/Asia/Seoul' date"
+
+# Git autocomplete
+source ~/.git/git-completion.bash

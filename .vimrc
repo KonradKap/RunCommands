@@ -188,3 +188,12 @@ nnoremap <C-b> gT
 
 " // to search for visually selected text
 vnoremap <expr> // 'y/\V'.escape(@",'\').'<CR>'
+
+" highlight 81st character
+:2mat ErrorMsg '\%81v.'
+
+" trailing whitespaces
+set list listchars=trail:·
+
+" Highlight current line
+set cursorline
