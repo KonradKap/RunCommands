@@ -1,15 +1,12 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
-syntax on
-set tabstop=4       " The width of a TAB is set to 4.
+set nocompatible    " be iMproved, required
+filetype off        " required
+
+set softtabstop=-1  " Sets the number of columns for a TAB equal to 'shiftwidth'
+set shiftwidth=0    " Indents will have a width of 'tabstop'
+set tabstop=2       " The width of a TAB is set to this.
                     " Still it is a \t. It is just that
-		    " Vim will interpret it to be having
-		    " a width of 4.
-		    "
-set shiftwidth=4    " Indents will have a width of 4
-		    "
-set softtabstop=4   " Sets the number of columns for a TAB
-		    "
+                    " Vim will interpret it to be having
+                    " a width of 'tabstop'.
 set expandtab       " Expand TABs to spaces
 
 " set the runtime path to include Vundle and initialize
@@ -24,24 +21,128 @@ Plugin 'VundleVim/Vundle.vim'
 " My plugins:
 Plugin 'derekwyatt/vim-scala'
 
-Plugin 'Valloric/YouCompleteMe'
-let g:ycm_goto_buffer_command = 'new-tab'
-map <F6> :YcmDiags<CR>
-map <leader>f :YcmCompleter GoTo <cr>
-map <leader>t :YcmCompleter GetType <cr>
+Plugin 'Shougo/neocomplete.vim'
+"Note: This option must be set in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+    \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" AutoComplPop like behavior.
+"let g:neocomplete#enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplete#enable_auto_select = 1
+"let g:neocomplete#disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+" let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+" let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+" let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-" Bundle 'jistr/vim-nerdtree-tabs'
 map <F5> :NERDTreeToggle<CR>
 
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 let g:airline_theme='distinguished'
 
+Plugin 'airblade/vim-gitgutter'
+let g:gitgutter_sign_column_always = 1
+nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>GitGutterPrevHunk
+nmap <Leader>ha <Plug>GitGutterStageHunk
+nmap <Leader>hr <Plug>GitGutterUndoHunk
+
+Plugin 'tpope/vim-fugitive'
+
+Plugin 'scrooloose/syntastic'
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_loc_list_height=5
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_cpp_no_include_search = 1
+let g:syntastic_cpp_include_dirs = [
+      \'src',
+      \'/home/k.kapron/buildroot/local/BUILD-ROOTS/scratch.armv7l.0/usr/include/',
+      \'/home/k.kapron/buildroot/local/BUILD-ROOTS/scratch.armv7l.0/usr/include/dlog/',
+      \'/home/k.kapron/buildroot/local/BUILD-ROOTS/scratch.armv7l.0/usr/include/app-installers/',
+      \]
+let g:syntastic_cpp_remove_include_errors = 1
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_cpp_compiler_options = ' -std=c++11'
+
+
+let $PYTHONPATH = 'src'
 
 highlight Pmenu ctermfg=15 ctermbg=0 guifg=#ffffff guibg=#000000
 colorscheme molokai
+
+Plugin 'Yggdroot/indentLine'
+Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'johngrib/vim-game-snake'
+
+" PLUGINEND
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -57,11 +158,6 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-
-
-" Set 'nocompatible' to ward off unexpected things that your distro might
-" have made, as well as sanely reset options when re-sourcing .vimrc
-set nocompatible
 
 " Enable syntax highlighting
 syntax on
@@ -144,12 +240,6 @@ set notimeout ttimeout ttimeoutlen=200
 " Use <F10> to toggle between 'paste' and 'nopaste'
 set pastetoggle=<F10>
 
-" Indentation settings for using 4 spaces instead of tabs.
-" Do not change 'tabstop' from its default value of 8 with this setup.
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-
 " Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
 " which is the default
 map Y y$
@@ -176,15 +266,18 @@ map <F4> :source ~/.vim_session <cr>                " And load session with F4
 set splitbelow
 set splitright
 
-set matchpairs+=<:>
+" Html tag match
+autocmd BufRead,BufNewFile *.html setlocal matchpairs+=<:>
 
 " Pressing Ctrl-L leaves insert mode in evim, so why not in regular vim, too.
 imap <C-L> <Esc>
 
+" search as we type
 set incsearch
 
-nnoremap <C-n> gt
-nnoremap <C-b> gT
+" jumping ver tabs
+nnoremap <C-p> gt
+nnoremap <C-n> gT
 
 " // to search for visually selected text
 vnoremap <expr> // 'y/\V'.escape(@",'\').'<CR>'
@@ -197,3 +290,6 @@ set list listchars=trail:·
 
 " Highlight current line
 set cursorline
+
+" Auto reload file on changes
+set autoread
